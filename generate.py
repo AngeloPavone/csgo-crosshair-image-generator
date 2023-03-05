@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw
-from enum import Enum
+import re
+
 
 class Crosshair:
     crosshair_style = None,     # LODWORD [14] >> 1
@@ -22,18 +23,23 @@ class Crosshair:
 
 
 def decode():
+    crosshair_code = "CSGO-OBFqv-K46Ei-F3Tk6-LdOdL-3aQ3A"
+    DICTIONARY = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefhijkmnopqrstuvwxyz23456789"
+    SHARECODE_PATTERN = re.search("^CSGO(-?[\\w]{5}){5}$", crosshair_code)
+    print(SHARECODE_PATTERN)
     pass
 
-def generate_crosshair():
+def create_image() -> object:
     img = Image.new('RGBA', (100, 100), (255, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     draw.rectangle((25, 25, 75, 75), fill=(255, 0, 0))
     img.save('crosshair.png', 'PNG')
-    print(f'crosshair generated')
+    return img
 
 
 def main():
-    generate_crosshair()
+    create_image()
+    decode()
 
 
 if __name__ == '__main__':
