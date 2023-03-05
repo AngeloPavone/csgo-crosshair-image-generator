@@ -1,5 +1,9 @@
+from os import walk
 from PIL import Image, ImageDraw
 import re
+
+
+SHARE_CODE = "CSGO-zpstH-jozpK-AxiWq-GNC2a-pVnMC"
 
 
 class Crosshair:
@@ -22,13 +26,24 @@ class Crosshair:
     is_t_style = None,          # HIDWORD [14] & 8
 
 
-def decode(crosshair_code="CSGO-OBFqv-K46Ei-F3Tk6-LdOdL-3aQ3A"):
+def decode(SHARE_CODE):
     DICTIONARY = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefhijkmnopqrstuvwxyz23456789"
-    MATCH = re.search("^CSGO(-?[\\w]{5}){5}$", crosshair_code)
+    MATCH = re.search("^CSGO(-?[\\w]{5}){5}$", SHARE_CODE)
     if not MATCH:
         print('Not a Valid Crosshair Code!')
         exit(1)
-    print(MATCH)
+
+    crosshair_code = SHARE_CODE[4:].replace('-','')
+
+    # print(list(crosshair_code[::-1]))
+    big = 0
+    for char in list(crosshair_code[::-1]):
+        big = (big * len(DICTIONARY)) + DICTIONARY.index(char)
+
+    print(big)
+
+
+    print(crosshair_code)
 
 def create_image() -> object:
     img = Image.new('RGBA', (100, 100), (255, 0, 0, 0))
@@ -40,7 +55,7 @@ def create_image() -> object:
 
 def main():
     create_image()
-    decode()
+    decode(SHARE_CODE)
 
 
 if __name__ == '__main__':
