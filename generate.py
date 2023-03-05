@@ -22,12 +22,13 @@ class Crosshair:
     is_t_style = None,          # HIDWORD [14] & 8
 
 
-def decode():
-    crosshair_code = "CSGO-OBFqv-K46Ei-F3Tk6-LdOdL-3aQ3A"
+def decode(crosshair_code="CSGO-OBFqv-K46Ei-F3Tk6-LdOdL-3aQ3A"):
     DICTIONARY = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefhijkmnopqrstuvwxyz23456789"
-    SHARECODE_PATTERN = re.search("^CSGO(-?[\\w]{5}){5}$", crosshair_code)
-    print(SHARECODE_PATTERN)
-    pass
+    MATCH = re.search("^CSGO(-?[\\w]{5}){5}$", crosshair_code)
+    if not MATCH:
+        print('Not a Valid Crosshair Code!')
+        exit(1)
+    print(MATCH)
 
 def create_image() -> object:
     img = Image.new('RGBA', (100, 100), (255, 0, 0, 0))
