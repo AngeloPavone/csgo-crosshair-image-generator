@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw
 import re
 
 
-SHARE_CODE = "CSGO-zpstH-jozpK-AxiWq-GNC2a-pVnMC"
+SHARE_CODE = 'CSGO-NPTvi-CPSBT-spQpx-k8puS-wwNQC'
 
 
 class Crosshair:
@@ -45,12 +45,10 @@ class Crosshair:
         if len(big_bytes) == 18:
             big_bytes.append(0x00)
 
-        print(f'RAW BYTES: {big_bytes}')
         return big_bytes
 
 
-    # TODO: add all the math and fix the ones that don't work
-    def __init__(self, raw_bytes=decode(SHARE_CODE)) -> object:
+    def __init__(self, raw_bytes=decode(SHARE_CODE)) -> None:
         self.style              =   (raw_bytes[14] & 0xF) >> 1
         self.is_t_style         =   (1 if ((raw_bytes[14] >> 4) & 8) != 0 else 0)
         self.length             =   (raw_bytes[15] / 10.0)
@@ -67,11 +65,10 @@ class Crosshair:
         self.inner_split_alpha  =   (raw_bytes[11] >> 4) / 10.0
         self.outer_split_alpha  =   (raw_bytes[12] & 0xF) / 10.0
         self.split_distance     =   (raw_bytes[9])
-
         self.split_size_ratio   =   (raw_bytes[12] >> 4) / 10.0
 
 
-def create_image() -> object:
+def create_image() -> None:
     img = Image.new('RGBA', (100, 100), (255, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     draw.rectangle((25, 25, 75, 75), fill=(255, 0, 0))
@@ -79,8 +76,7 @@ def create_image() -> object:
     return img
 
 
-def main():
-    create_image()
+def print_crosshair() -> None:
     c = Crosshair()
     print(f'cl_crosshairstyle {c.style};'
           f' cl_crosshair_t {c.is_t_style};'
@@ -102,6 +98,10 @@ def main():
           f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio}'
         )
 
+
+
+def main():
+    print_crosshair()
 
 
 if __name__ == '__main__':
