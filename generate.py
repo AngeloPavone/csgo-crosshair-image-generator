@@ -6,23 +6,23 @@ SHARE_CODE = 'CSGO-NPTvi-CPSBT-spQpx-k8puS-wwNQC'
 
 
 class Crosshair:
-    style               =   None,
-    has_center_dot      =   None,
-    length              =   None,
-    thickness           =   None,
-    gap                 =   None,
-    has_outline         =   None,
-    outline             =   None,
-    red                 =   None,
-    green               =   None,
-    blue                =   None,
-    has_alpha           =   None,
-    alpha               =   None,
-    split_distance      =   None,
-    inner_split_alpha   =   None,
-    outer_split_alpha   =   None,
-    split_size_ratio    =   None,
-    is_t_style          =   None,
+    style               =   None
+    has_center_dot      =   None
+    length              =   None
+    thickness           =   None
+    gap                 =   None
+    has_outline         =   None
+    outline             =   None
+    red                 =   None
+    green               =   None
+    blue                =   None
+    has_alpha           =   None
+    alpha               =   None
+    split_distance      =   None
+    inner_split_alpha   =   None
+    outer_split_alpha   =   None
+    split_size_ratio    =   None
+    is_t_style          =   None
 
 
     def decode(SHARE_CODE: str) -> list:
