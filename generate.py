@@ -69,9 +69,20 @@ class Crosshair:
 
 
 def create_image() -> None:
-    img = Image.new('RGBA', (100, 100), (255, 0, 0, 0))
+    img = Image.new('RGBA', (800, 800), (255, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    draw.rectangle((25, 25, 75, 75), fill=(255, 0, 0))
+
+    width = 200
+    height = 100
+
+    # define the coordinates of the rectangle
+    left = (img.width - width) // 2
+    top = (img.height - height) // 2
+    right = left + width
+    bottom = top + height
+
+    # draw the rectangle on the image
+    draw.rectangle((left, top, right, bottom), fill='red', outline='black', width=2)
     img.save('crosshair.png', 'PNG')
     return img
 
@@ -102,6 +113,7 @@ def print_crosshair() -> None:
 
 def main():
     print_crosshair()
+    create_image()
 
 
 if __name__ == '__main__':
