@@ -1,4 +1,3 @@
-from os import walk
 from PIL import Image, ImageDraw
 import re
 
@@ -35,12 +34,12 @@ def decode(SHARE_CODE):
 
     crosshair_code = SHARE_CODE[4:].replace('-','')
 
-    # print(list(crosshair_code[::-1]))
     big = 0
     for char in list(crosshair_code[::-1]):
         big = (big * len(DICTIONARY)) + DICTIONARY.index(char)
 
-    print(big)
+    big_bytes = list(big.to_bytes(18)[::-1])
+    print(big_bytes)
 
 
     print(crosshair_code)
