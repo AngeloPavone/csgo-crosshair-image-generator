@@ -6,23 +6,23 @@ SHARE_CODE = "CSGO-zpstH-jozpK-AxiWq-GNC2a-pVnMC"
 
 
 class Crosshair:
-    crosshair_style = None,
-    has_center_dot = None,
-    length = None,
-    thickness = None,
-    gap = None,
-    hasOutline = None,
-    outline = None,
-    red = None,
-    green = None,
-    blue = None,
-    has_alpha = None,
-    alpha = None,
-    split_distance = None,
-    inner_split_alpha = None,
-    outer_split_alpha = None,
-    split_size_ratio = None,
-    is_t_style = None,
+    style               =   None,
+    has_center_dot      =   None,
+    length              =   None,
+    thickness           =   None,
+    gap                 =   None,
+    has_outline         =   None,
+    outline             =   None,
+    red                 =   None,
+    green               =   None,
+    blue                =   None,
+    has_alpha           =   None,
+    alpha               =   None,
+    split_distance      =   None,
+    inner_split_alpha   =   None,
+    outer_split_alpha   =   None,
+    split_size_ratio    =   None,
+    is_t_style          =   None,
 
 
     def decode(SHARE_CODE: str) -> list:
@@ -58,18 +58,17 @@ class Crosshair:
         self.blue               =   (raw_bytes[7])
         self.alpha              =   (raw_bytes[8])
         self.split_distance     =   (raw_bytes[9])
-        self.hasOutline         =   (raw_bytes[11] & 8) != 0
+        self.has_outline        =   (1 if (raw_bytes[11] & 8) != 0 else 0)
         self.thickness          =   (raw_bytes[13] / 10.0)
-        self.crosshair_style    =   (raw_bytes[14] & 0xF) >> 1
-        self.has_center_dot     =   ((raw_bytes[14] >> 4) & 1) != 0
-        self.has_alpha          =   ((raw_bytes[14] >> 4) & 4) != 0
+        self.style              =   (raw_bytes[14] & 0xF) >> 1
+        self.has_center_dot     =   (1 if ((raw_bytes[14] >> 4) & 1) != 0 else 0)
+        self.has_alpha          =   (1 if ((raw_bytes[14] >> 4) & 4) != 0 else 0)
         self.length             =   (raw_bytes[15] / 10.0)
         self.inner_split_alpha  =   (raw_bytes[11] >> 4) / 10.0
         self.outer_split_alpha  =   (raw_bytes[12] & 0xF) / 10.0
         self.split_size_ratio   =   (raw_bytes[12] >> 4) / 10.0
-        self.is_t_style         =   ((raw_bytes[14] >> 4) & 8) != 0
+        self.is_t_style         =   (1 if ((raw_bytes[14] >> 4) & 8) != 0 else 0)
 
-    # print(f"cl_crosshairgap {float(c.gap)}, ")
 
 def create_image() -> object:
     img = Image.new('RGBA', (100, 100), (255, 0, 0, 0))
@@ -82,7 +81,7 @@ def create_image() -> object:
 def main():
     create_image()
     c = Crosshair()
-    print(f"cl_crosshairgap {c.gap}, ")
+    print(f"cl_crosshairstyle {c.style}, cl_crosshair_t {c.is_t_style}, cl_crosshairsize {c.length}, cl_Crosshairthickness {c.thickness}, cl_crosshairgap {c.gap}, cl_crosshairdot {c.has_center_dot}, cl_crosshairusealpha {c.has_alpha}, cl_crosshairalpha {c.alpha}, cl_crosshair_drawoutline {c.has_outline}")
 
 
 
