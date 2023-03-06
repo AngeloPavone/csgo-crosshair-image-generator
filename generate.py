@@ -51,24 +51,25 @@ class Crosshair:
 
     # TODO: add all the math and fix the ones that don't work
     def __init__(self, raw_bytes=decode(SHARE_CODE)) -> object:
-        self.gap               =    (raw_bytes[3] / 10.0),
-        self.outline           =    (raw_bytes[4] / 2.0),
-        self.red               =    (raw_bytes[5]),
-        self.green             =    (raw_bytes[6]),
-        self.blue              =    (raw_bytes[7]),
-        self.alpha             =    (raw_bytes[8]),
-        self.split_distance    =    (raw_bytes[9]),
-        self.hasOutline        =    (bytes[11] & 8) != 0,
-        self.thickness         =    (raw_bytes[13] / 10.0),
-        self.crosshair_style   =    (raw_bytes[14] & 0xF) >> 1,
-        self.has_center_dot    =    ((raw_bytes[14] >> 4) & 1) != 0,
-        self.has_alpha         =    ((bytes[14] >> 4) & 4) != 0,
-        self.length            =    (raw_bytes[15] / 10.0),
-        self.inner_split_alpha =    (bytes[11] >> 4) / 10.0,
-        self.outer_split_alpha =    (bytes[12] & 0xF) / 10.0,
-        self.split_size_ratio  =    (bytes[12] >> 4) / 10.0,
-        self.is_t_style        =    ((bytes[14] >> 4) & 8) != 0,
+        self.gap                =   (raw_bytes[3] / 10.0),
+        self.outline            =   (raw_bytes[4] / 2.0),
+        self.red                =   (raw_bytes[5]),
+        self.green              =   (raw_bytes[6]),
+        self.blue               =   (raw_bytes[7]),
+        self.alpha              =   (raw_bytes[8]),
+        self.split_distance     =   (raw_bytes[9]),
+        self.hasOutline         =   (raw_bytes[11] & 8) != 0,
+        self.thickness          =   (raw_bytes[13] / 10.0),
+        self.crosshair_style    =   (raw_bytes[14] & 0xF) >> 1,
+        self.has_center_dot     =   ((raw_bytes[14] >> 4) & 1) != 0,
+        self.has_alpha          =   ((raw_bytes[14] >> 4) & 4) != 0,
+        self.length             =   (raw_bytes[15] / 10.0),
+        self.inner_split_alpha  =   (raw_bytes[11] >> 4) / 10.0,
+        self.outer_split_alpha  =   (raw_bytes[12] & 0xF) / 10.0,
+        self.split_size_ratio   =   (raw_bytes[12] >> 4) / 10.0,
+        self.is_t_style         =   ((raw_bytes[14] >> 4) & 8) != 0,
 
+    # print(f"cl_crosshairgap {float(c.gap)}, ")
 
 def create_image() -> object:
     img = Image.new('RGBA', (100, 100), (255, 0, 0, 0))
@@ -81,8 +82,8 @@ def create_image() -> object:
 def main():
     create_image()
     c = Crosshair()
+    print(f"cl_crosshairgap {c.gap}, ")
 
-    print(f"")
 
 
 if __name__ == '__main__':
