@@ -6,23 +6,23 @@ SHARE_CODE = "CSGO-zpstH-jozpK-AxiWq-GNC2a-pVnMC"
 
 
 class Crosshair:
-    crosshair_style = None,     # LODWORD [14] >> 1
-    has_center_dot = None,      # HIDWORD [14] & 1
-    length = None,              # [15] / 10
-    thickness = None,           # [13] / 10
-    gap = None,                 # unchecked((sbyte) [3]) / 10
-    hasOutline = None,          # [11] & 8
-    outline = None,             # [4] / 2
-    red = None,                 # [5]
-    green = None,               # [6]
-    blue = None,                # [7]
-    has_alpha = None,           # HIDWORD [14] & 4
-    alpha = None,               # [8]
-    split_distance = None,      # [9]
-    inner_split_alpha = None,   # HIDWORD [11] / 10
-    outer_split_alpha = None,   # LODWORD [12] / 10
-    split_size_ratio = None,    # HIDWORD [12] / 10
-    is_t_style = None,          # HIDWORD [14] & 8
+    crosshair_style = None,
+    has_center_dot = None,
+    length = None,
+    thickness = None,
+    gap = None,
+    hasOutline = None,
+    outline = None,
+    red = None,
+    green = None,
+    blue = None,
+    has_alpha = None,
+    alpha = None,
+    split_distance = None,
+    inner_split_alpha = None,
+    outer_split_alpha = None,
+    split_size_ratio = None,
+    is_t_style = None,
 
 
     def decode(SHARE_CODE: str) -> list:
@@ -51,23 +51,23 @@ class Crosshair:
 
     # TODO: add all the math and fix the ones that don't work
     def __init__(self, raw_bytes=decode(SHARE_CODE)) -> object:
-        self.gap                =   (raw_bytes[3] / 10.0),
-        self.outline            =   (raw_bytes[4] / 2.0),
-        self.red                =   (raw_bytes[5]),
-        self.green              =   (raw_bytes[6]),
-        self.blue               =   (raw_bytes[7]),
-        self.alpha              =   (raw_bytes[8]),
-        self.split_distance     =   (raw_bytes[9]),
-        self.hasOutline         =   (raw_bytes[11] & 8) != 0,
-        self.thickness          =   (raw_bytes[13] / 10.0),
-        self.crosshair_style    =   (raw_bytes[14] & 0xF) >> 1,
-        self.has_center_dot     =   ((raw_bytes[14] >> 4) & 1) != 0,
-        self.has_alpha          =   ((raw_bytes[14] >> 4) & 4) != 0,
-        self.length             =   (raw_bytes[15] / 10.0),
-        self.inner_split_alpha  =   (raw_bytes[11] >> 4) / 10.0,
-        self.outer_split_alpha  =   (raw_bytes[12] & 0xF) / 10.0,
-        self.split_size_ratio   =   (raw_bytes[12] >> 4) / 10.0,
-        self.is_t_style         =   ((raw_bytes[14] >> 4) & 8) != 0,
+        self.gap                =   (raw_bytes[3] / 10.0)
+        self.outline            =   (raw_bytes[4] / 2.0)
+        self.red                =   (raw_bytes[5])
+        self.green              =   (raw_bytes[6])
+        self.blue               =   (raw_bytes[7])
+        self.alpha              =   (raw_bytes[8])
+        self.split_distance     =   (raw_bytes[9])
+        self.hasOutline         =   (raw_bytes[11] & 8) != 0
+        self.thickness          =   (raw_bytes[13] / 10.0)
+        self.crosshair_style    =   (raw_bytes[14] & 0xF) >> 1
+        self.has_center_dot     =   ((raw_bytes[14] >> 4) & 1) != 0
+        self.has_alpha          =   ((raw_bytes[14] >> 4) & 4) != 0
+        self.length             =   (raw_bytes[15] / 10.0)
+        self.inner_split_alpha  =   (raw_bytes[11] >> 4) / 10.0
+        self.outer_split_alpha  =   (raw_bytes[12] & 0xF) / 10.0
+        self.split_size_ratio   =   (raw_bytes[12] >> 4) / 10.0
+        self.is_t_style         =   ((raw_bytes[14] >> 4) & 8) != 0
 
     # print(f"cl_crosshairgap {float(c.gap)}, ")
 
