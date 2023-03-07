@@ -1,14 +1,21 @@
 from PIL import Image, ImageDraw
 import re
+from math import log
 
 
 SHARE_CODE = 'CSGO-2phoc-Nn9Pa-qrMFN-xtXZP-O3qRP'
+
+SCALE = 1
+WIDTH = 200
+HEIGHT = 200
+CENTER_X = WIDTH // 2
+CENTER_Y = HEIGHT // 2
 
 
 class Crosshair:
     style               =   None
     has_center_dot      =   None
-    length              =   None
+    size                =   None
     thickness           =   None
     gap                 =   None
     has_outline         =   None
@@ -26,6 +33,12 @@ class Crosshair:
 
 
     def decode(SHARE_CODE: str) -> list:
+
+        def bytes_needed(n):
+             if n == 0:
+                  return 1
+             return int(log(n, 256)) + 1
+
         crosshair_code = SHARE_CODE[4:].replace('-','')
 
         DICTIONARY = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefhijkmnopqrstuvwxyz23456789"
@@ -40,20 +53,20 @@ class Crosshair:
         for char in list(crosshair_code[::-1]):
             big = (big * len(DICTIONARY)) + DICTIONARY.index(char)
 
-        big_bytes = list(big.to_bytes(18, 'big'))
+        big_size = bytes_needed(big)
+        big_bytes = list(big.to_bytes(big_size, 'big'))
 
         if len(big_bytes) == 18:
             big_bytes.insert(0x00, 0)
 
-        
-        print(big_bytes)
+        # print(f'\n {big_bytes}\n')
         return big_bytes
 
 
     def __init__(self, raw_bytes=decode(SHARE_CODE)) -> None:
         self.style              =   (raw_bytes[14] & 0xF) >> 1
         self.is_t_style         =   (1 if ((raw_bytes[14] >> 4) & 8) != 0 else 0)
-        self.length             =   (raw_bytes[15] / 10.0)
+        self.size               =   (raw_bytes[15] / 10.0)
         self.thickness          =   (raw_bytes[13] / 10.0)
         self.gap                =   (float(raw_bytes[3] if raw_bytes[3] < 128 else raw_bytes[3] - 256) / 10.0)
         self.has_center_dot     =   (1 if ((raw_bytes[14] >> 4) & 1) != 0 else 0)
@@ -71,30 +84,42 @@ class Crosshair:
 
 
 def create_image() -> None:
-    img = Image.new('RGBA', (800, 800), (255, 0, 0, 0))
+    img = Image.new('RGBA', (WIDTH, HEIGHT), (255, 0, 0, 0))
     draw = ImageDraw.Draw(img)
+    c = Crosshair()
 
-    width = 200
-    height = 100
+    SIZE = (2 * c.size)
+    THICKNESS = (c.thickness / 2)
+    GAP = c.gap
+    COLOR = "#87539f"
 
-    # define the coordinates of the rectangle
-    left = (img.width - width) // 2
-    top = (img.height - height) // 2
-    right = left + width
-    bottom = top + height
+    SIZE = 40
+    THICKNESS = 5
+    GAP = 10
 
-    # draw the rectangle on the image
-    draw.rectangle((left, top, right, bottom), fill='red', outline='black', width=2)
+    # draw the rectangle on the image (left, top, right, bottom)
+    # top
+    if not c.is_t_style:
+        draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y - GAP) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y - SIZE) * SCALE), fill=COLOR, outline='black', width=1)
+    # right
+    draw.rectangle(((CENTER_X + GAP) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X + SIZE) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=COLOR, outline='black', width=1)
+    # left
+    draw.rectangle(((CENTER_X - SIZE) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X - GAP) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=COLOR, outline='black', width=1)
+    # bottom
+    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y + SIZE) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y + GAP) * SCALE), fill=COLOR, outline='black', width=1)
+
+
     img.save('crosshair.png', 'PNG')
     return img
 
 
 def print_crosshair() -> None:
     c = Crosshair()
+    print(f' CODE: {SHARE_CODE}\n')
     print(
             f' cl_crosshairstyle {c.style};\n'
             f' cl_crosshair_t {c.is_t_style};\n'
-            f' cl_crosshairsize {c.length};\n'
+            f' cl_crosshairsize {c.size};\n'
             f' cl_crosshairthickness {c.thickness};\n'
             f' cl_crosshairgap {c.gap};\n'
             f' cl_crosshairdot {c.has_center_dot};\n\n'
