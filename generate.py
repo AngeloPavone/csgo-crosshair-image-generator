@@ -34,11 +34,6 @@ class Crosshair:
 
     def decode(SHARE_CODE: str) -> list:
 
-        def bytes_needed(n):
-             if n == 0:
-                  return 1
-             return int(log(n, 256)) + 1
-
         crosshair_code = SHARE_CODE[4:].replace('-','')
 
         DICTIONARY = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefhijkmnopqrstuvwxyz23456789"
@@ -48,18 +43,20 @@ class Crosshair:
             print('Not a Valid Crosshair Code!')
             exit(1)
 
-
         big = 0
         for char in list(crosshair_code[::-1]):
             big = (big * len(DICTIONARY)) + DICTIONARY.index(char)
 
+        def bytes_needed(n):
+            return 1 if n == 0 else int(log(n, 256)) + 1
+
         big_size = bytes_needed(big)
-        big_bytes = list(big.to_bytes(big_size, 'big'))
+        big_bytes = list(big.to_bytes(big_size, 'little'))
 
         if len(big_bytes) == 18:
-            big_bytes.insert(0x00, 0)
+            big_bytes.append(0x00)
 
-        # print(f'\n {big_bytes}\n')
+        print(f'\n {big_bytes}\n')
         return big_bytes
 
 
@@ -68,7 +65,8 @@ class Crosshair:
         self.is_t_style         =   (1 if ((raw_bytes[14] >> 4) & 8) != 0 else 0)
         self.size               =   (raw_bytes[15] / 10.0)
         self.thickness          =   (raw_bytes[13] / 10.0)
-        self.gap                =   (float(raw_bytes[3] if raw_bytes[3] < 128 else raw_bytes[3] - 256) / 10.0)
+        # self.use_weapon_gap     =   (1 if ((raw_bytes[13] >> 4) & 2) != 0 else 0)
+        self.gap                =   (raw_bytes[3] if raw_bytes[3] < 128 else raw_bytes[3] - 256) / 10.0
         self.has_center_dot     =   (1 if ((raw_bytes[14] >> 4) & 1) != 0 else 0)
         self.has_alpha          =   (1 if ((raw_bytes[14] >> 4) & 4) != 0 else 0)
         self.alpha              =   (raw_bytes[8])
@@ -89,24 +87,26 @@ def create_image() -> None:
     c = Crosshair()
 
     SIZE = (2 * c.size)
-    THICKNESS = (c.thickness / 2)
-    GAP = c.gap
-    COLOR = "#87539f"
+    THICKNESS = c.thickness
+    GAP = 2 * c.gap
+    OUTLINE = "BLACK" if c.has_outline else None
 
-    SIZE = 44
-    THICKNESS = 5
-    GAP = 8
+    print(f'{THICKNESS} :: {c.thickness}')
 
-    # draw the rectangle on the image (left, top, right, bottom)
+    # SIZE = 44
+    # THICKNESS = 5
+    # GAP = 8
+    # c.is_t_style = 0
+
+    # draw the rectangle on the image draw.rectangle(left, top, right, bottom)
     # top
-    if not c.is_t_style:
-        draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y - GAP) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y - SIZE) * SCALE), fill=COLOR, outline='black', width=1)
+    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y - GAP) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y - SIZE) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
     # right
-    draw.rectangle(((CENTER_X + GAP) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X + SIZE) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=COLOR, outline='black', width=1)
+    draw.rectangle(((CENTER_X + GAP) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X + SIZE) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
     # left
-    draw.rectangle(((CENTER_X - SIZE) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X - GAP) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=COLOR, outline='black', width=1)
+    draw.rectangle(((CENTER_X - SIZE) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X - GAP) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
     # bottom
-    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y + SIZE) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y + GAP) * SCALE), fill=COLOR, outline='black', width=1)
+    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y + SIZE) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y + GAP) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
 
 
     img.save('crosshair.png', 'PNG')
@@ -115,7 +115,7 @@ def create_image() -> None:
 
 def print_crosshair() -> None:
     c = Crosshair()
-    print(f' CODE: {SHARE_CODE}\n')
+    print(f'\n CODE: {SHARE_CODE}\n')
     print(
             f' cl_crosshairstyle {c.style};\n'
             f' cl_crosshair_t {c.is_t_style};\n'
