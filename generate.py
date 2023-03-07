@@ -93,9 +93,9 @@ def create_image() -> None:
     GAP = c.gap
     COLOR = "#87539f"
 
-    SIZE = 40
+    SIZE = 44
     THICKNESS = 5
-    GAP = 10
+    GAP = 8
 
     # draw the rectangle on the image (left, top, right, bottom)
     # top
