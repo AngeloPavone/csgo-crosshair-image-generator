@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw
 import re
 
 
-SHARE_CODE = 'CSGO-NPTvi-CPSBT-spQpx-k8puS-wwNQC'
+SHARE_CODE = 'CSGO-2phoc-Nn9Pa-qrMFN-xtXZP-O3qRP'
 
 
 class Crosshair:
@@ -40,11 +40,13 @@ class Crosshair:
         for char in list(crosshair_code[::-1]):
             big = (big * len(DICTIONARY)) + DICTIONARY.index(char)
 
-        big_bytes = list(big.to_bytes(18)[::-1])
+        big_bytes = list(big.to_bytes(18, 'big'))
 
         if len(big_bytes) == 18:
-            big_bytes.append(0x00)
+            big_bytes.insert(0x00, 0)
 
+        
+        print(big_bytes)
         return big_bytes
 
 
@@ -53,7 +55,7 @@ class Crosshair:
         self.is_t_style         =   (1 if ((raw_bytes[14] >> 4) & 8) != 0 else 0)
         self.length             =   (raw_bytes[15] / 10.0)
         self.thickness          =   (raw_bytes[13] / 10.0)
-        self.gap                =   (raw_bytes[3] / 10.0)
+        self.gap                =   (float(raw_bytes[3] if raw_bytes[3] < 128 else raw_bytes[3] - 256) / 10.0)
         self.has_center_dot     =   (1 if ((raw_bytes[14] >> 4) & 1) != 0 else 0)
         self.has_alpha          =   (1 if ((raw_bytes[14] >> 4) & 4) != 0 else 0)
         self.alpha              =   (raw_bytes[8])
@@ -89,24 +91,25 @@ def create_image() -> None:
 
 def print_crosshair() -> None:
     c = Crosshair()
-    print(f'cl_crosshairstyle {c.style};'
-          f' cl_crosshair_t {c.is_t_style};'
-          f' cl_crosshairsize {c.length};'
-          f' cl_crosshairthickness {c.thickness};'
-          f' cl_crosshairgap {c.gap};'
-          f' cl_crosshairdot {c.has_center_dot};'
-          f' cl_crosshairusealpha {c.has_alpha};'
-          f' cl_crosshairalpha {c.alpha};'
-          f' cl_crosshair_drawoutline {c.has_outline};'
-          f' cl_crosshaircolor 5;'
-          f' cl_crosshaircolor_r {c.red};'
-          f' cl_crosshaircolor_g {c.green};'
-          f' cl_crosshaircolor_b {c.blue};'
-          f' cl_crosshair_dynamic_splitdist {c.split_distance};'
-          f' cl_crosshair_outlinethickness {c.outline};'
-          f' cl_crosshair_dynamic_splitalpha_innermod {c.inner_split_alpha};'
-          f' cl_crosshair_dynamic_splitalpha_outermod {c.outer_split_alpha};'
-          f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio}'
+    print(
+            f' cl_crosshairstyle {c.style};\n'
+            f' cl_crosshair_t {c.is_t_style};\n'
+            f' cl_crosshairsize {c.length};\n'
+            f' cl_crosshairthickness {c.thickness};\n'
+            f' cl_crosshairgap {c.gap};\n'
+            f' cl_crosshairdot {c.has_center_dot};\n\n'
+            f' cl_crosshairusealpha {c.has_alpha};\n'
+            f' cl_crosshairalpha {c.alpha};\n'
+            f' cl_crosshair_drawoutline {c.has_outline};\n'
+            f' cl_crosshaircolor 5;\n'
+            f' cl_crosshaircolor_r {c.red};\n'
+            f' cl_crosshaircolor_g {c.green};\n'
+            f' cl_crosshaircolor_b {c.blue};\n\n'
+            f' cl_crosshair_dynamic_splitdist {c.split_distance};\n'
+            f' cl_crosshair_outlinethickness {c.outline};\n'
+            f' cl_crosshair_dynamic_splitalpha_innermod {c.inner_split_alpha};\n'
+            f' cl_crosshair_dynamic_splitalpha_outermod {c.outer_split_alpha};\n'
+            f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio}\n'
         )
 
 
