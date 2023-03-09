@@ -116,6 +116,7 @@ def create_image() -> None:
     # draw the rectangle on the image draw.rectangle(left, top, right, bottom)
     # top
     # draw.rectangle((top_left(THICKNESS, WIDTH), top_top(SIZE, HEIGHT), top_right(THICKNESS, WIDTH), top_bottom(SIZE, HEIGHT)), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
+    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y - GAP) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y - SIZE) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
     # right
     draw.rectangle(((CENTER_X + GAP) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X + SIZE) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
     # left
