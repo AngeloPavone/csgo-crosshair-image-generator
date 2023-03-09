@@ -6,8 +6,8 @@ from math import log
 SHARE_CODE = 'CSGO-Cn37R-YE7vo-pLCAL-aURmZ-z6zkG'
 
 SCALE = 1
-WIDTH = 200
-HEIGHT = 200
+WIDTH = 80
+HEIGHT = 80
 CENTER_X = WIDTH // 2
 CENTER_Y = HEIGHT // 2
 
@@ -63,7 +63,7 @@ class Crosshair:
         if len(bytes) == 18:
             bytes.append(0x00)
 
-        print(f'\n {bytes}\n')
+        # print(f'\n {bytes}\n')
         return list(reversed(bytes))
 
 
@@ -77,7 +77,7 @@ class Crosshair:
         self.green              =   (bytes[6])
         self.blue               =   (bytes[7])
         self.alpha              =   (bytes[8])
-        self.split_distance     =   (bytes[9])
+        self.split_distance     =   (float(bytes[9]))
         self.fixed_gap          =   (Crosshair.uint8toint8((bytes[10]) / 10.0))
         self.color              =   (bytes[11] & 7)
         self.has_outline        =   (1 if (bytes[11] & 8) != 0 else 0)
@@ -98,21 +98,24 @@ def create_image() -> None:
     draw = ImageDraw.Draw(img)
     c = Crosshair()
 
+
+    def map_gap_value(x: float) -> float:
+        if x == -5:
+            return 0
+        if x > -5:
+            return x -(-5)
+        if x < -5:
+            return (x + 5) * -1
+
+
     SIZE = (2 * c.size)
     THICKNESS = c.thickness
-    GAP = 2 * c.gap
+    GAP = map_gap_value(c.gap)
     OUTLINE = "BLACK" if c.has_outline else None
-
-    print(f'{THICKNESS} :: {c.thickness}')
-
-    # SIZE = 44
-    # THICKNESS = 5
-    # GAP = 8
-    # c.is_t_style = 0
 
     # draw the rectangle on the image draw.rectangle(left, top, right, bottom)
     # top
-    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y - GAP) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y - SIZE) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
+    # draw.rectangle((top_left(THICKNESS, WIDTH), top_top(SIZE, HEIGHT), top_right(THICKNESS, WIDTH), top_bottom(SIZE, HEIGHT)), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
     # right
     draw.rectangle(((CENTER_X + GAP) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X + SIZE) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
     # left
