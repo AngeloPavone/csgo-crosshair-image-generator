@@ -6,8 +6,8 @@ from math import log
 SHARE_CODE = 'CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM'
 
 SCALE = 1
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 200
+HEIGHT = 200
 CENTER_X = WIDTH / 2
 CENTER_Y = HEIGHT / 2
 
@@ -112,15 +112,16 @@ def create_image() -> None:
     SIZE = (2 * c.size) * SCALE
     THICKNESS = c.thickness * SCALE
     GAP = 2 * map_gap_value(c.gap) * SCALE
-    OUTLINE = "BLACK" if c.has_outline else None
+    OUTLINE = 1 if c.has_outline else 0
 
 
+    print(f' COORDINATES:')
     def left() -> list:
         X1 = (WIDTH / 2) - (SIZE + (GAP / 2))
         Y1 = (HEIGHT / 2) + (THICKNESS / 2)
         X2 = (WIDTH / 2) - (GAP / 2)
         Y2 = (HEIGHT / 2) - (THICKNESS / 2)
-        print(f'left: ({X1}, {Y1})x({X2}, {Y2})')
+        print(f' left: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
@@ -129,7 +130,7 @@ def create_image() -> None:
         Y1 = (HEIGHT / 2) - (SIZE + (GAP / 2))
         X2 = (WIDTH / 2) + (THICKNESS / 2)
         Y2 = (HEIGHT / 2) - (GAP / 2)
-        print(f'top: ({X1}, {Y1})x({X2}, {Y2})')
+        print(f' top: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
@@ -138,7 +139,7 @@ def create_image() -> None:
         Y1 = (HEIGHT / 2) + (THICKNESS / 2)
         X2 = (WIDTH / 2) + (SIZE + (GAP / 2))
         Y2 = (HEIGHT / 2) - (THICKNESS / 2)
-        print(f'right: ({X1}, {Y1})x({X2}, {Y2})')
+        print(f' right: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
@@ -147,14 +148,14 @@ def create_image() -> None:
         Y1 = (HEIGHT / 2) + (GAP / 2)
         X2 = (WIDTH / 2) + (THICKNESS / 2)
         Y2 = (HEIGHT / 2) + (SIZE + (GAP / 2))
-        print(f'bottom: ({X1}, {Y1})x({X2}, {Y2})')
+        print(f' bottom: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
-    draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
-    draw.rectangle((top()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
-    draw.rectangle((right()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
-    draw.rectangle((bottom()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
+    draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
+    draw.rectangle((top()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
+    draw.rectangle((right()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
+    draw.rectangle((bottom()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
 
 
     img.save('crosshair.png', 'PNG')
@@ -178,8 +179,8 @@ def print_crosshair() -> None:
             f' cl_crosshaircolor {c.color};\n'
             f' cl_crosshair_drawoutline {c.has_outline};\n'
             f' cl_crosshair_dynamic_splitalpha_innermod {c.inner_split_alpha};\n'
-            f' cl_crosshair_dynamic_splitalpha_outermod {c.outer_split_alpha};\n\n'
-            f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio};\n'
+            f' cl_crosshair_dynamic_splitalpha_outermod {c.outer_split_alpha};\n'
+            f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio};\n\n'
             f' cl_crosshairthickness {c.thickness};\n'
             f' cl_crosshairdot {c.has_center_dot};\n'
             f' cl_crosshairgap_useweaponvalue {c.use_weapon_gap};\n'
