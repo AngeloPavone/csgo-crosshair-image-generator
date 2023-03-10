@@ -9,7 +9,7 @@ generates a png image of a given crosshair with a transparent background
  CODE: 
  CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM
 
- OUTPUT:
+ OUTPUT:  
  cl_crosshairgap -2.5;  
  cl_crosshair_outlinethickness 0.0;  
  cl_crosshaircolor_r 0;  
