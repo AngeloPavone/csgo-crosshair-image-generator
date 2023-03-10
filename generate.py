@@ -5,9 +5,9 @@ from math import log
 
 SHARE_CODE = 'CSGO-DSw85-WryAK-xVom3-VtOS3-RqHCF'
 
-SCALE = 1
-WIDTH = 80
-HEIGHT = 80
+SCALE = 4
+WIDTH = 1920
+HEIGHT = 1080
 CENTER_X = WIDTH // 2
 CENTER_Y = HEIGHT // 2
 
@@ -108,9 +108,9 @@ def create_image() -> None:
             return (x + 5) * -1
 
 
-    SIZE = (2 * c.size)
-    THICKNESS = c.thickness
-    GAP = map_gap_value(c.gap)
+    SIZE = (2 * c.size) * SCALE
+    THICKNESS = c.thickness * SCALE
+    GAP = map_gap_value(c.gap) * (SCALE / 2)
     OUTLINE = "BLACK" if c.has_outline else None
 
 
@@ -151,12 +151,15 @@ def create_image() -> None:
 
     # draw the rectangle on the image draw.rectangle(left, top, right, bottom)
     # top
-    # draw.rectangle((top_left(THICKNESS, WIDTH), top_top(SIZE, HEIGHT), top_right(THICKNESS, WIDTH), top_bottom(SIZE, HEIGHT)), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
-    draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
-    draw.rectangle((top()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
-    draw.rectangle((right()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
-    draw.rectangle((bottom()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
+    draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
+    draw.rectangle((top()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
+    draw.rectangle((right()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
+    draw.rectangle((bottom()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
 
+    # draw.rectangle((left()), fill=("#00FFFF80"), outline=OUTLINE, width=1)
+    # draw.rectangle((top()), fill=("#FFA50080"), outline=OUTLINE, width=1)
+    # draw.rectangle((right()), fill=("#A020F080"), outline=OUTLINE, width=1)
+    # draw.rectangle((bottom()), fill=("#FFC0CB80"), outline=OUTLINE, width=1)
 
 
 
