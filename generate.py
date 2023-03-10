@@ -3,9 +3,10 @@ import re
 from math import log
 
 
-SHARE_CODE = 'CSGO-DSw85-WryAK-xVom3-VtOS3-RqHCF'
+SHARE_CODE = 'CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM'
 
-SCALE = 4
+SCALE = 1
+GAP_SCALE = 1
 WIDTH = 1920
 HEIGHT = 1080
 CENTER_X = WIDTH // 2
@@ -110,7 +111,7 @@ def create_image() -> None:
 
     SIZE = (2 * c.size) * SCALE
     THICKNESS = c.thickness * SCALE
-    GAP = map_gap_value(c.gap) * (SCALE / 2)
+    GAP = 2 * map_gap_value(c.gap) * SCALE
     OUTLINE = "BLACK" if c.has_outline else None
 
 
@@ -149,18 +150,11 @@ def create_image() -> None:
         print(f'bottom: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
-    # draw the rectangle on the image draw.rectangle(left, top, right, bottom)
-    # top
+
     draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
     draw.rectangle((top()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
     draw.rectangle((right()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
     draw.rectangle((bottom()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
-
-    # draw.rectangle((left()), fill=("#00FFFF80"), outline=OUTLINE, width=1)
-    # draw.rectangle((top()), fill=("#FFA50080"), outline=OUTLINE, width=1)
-    # draw.rectangle((right()), fill=("#A020F080"), outline=OUTLINE, width=1)
-    # draw.rectangle((bottom()), fill=("#FFC0CB80"), outline=OUTLINE, width=1)
-
 
 
     img.save('crosshair.png', 'PNG')
