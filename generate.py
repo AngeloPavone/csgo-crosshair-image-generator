@@ -168,26 +168,26 @@ def print_crosshair() -> None:
 
     print(f' OUTPUT: ')
     print(
+            f' cl_crosshairstyle {c.style};\n'
+            f' cl_crosshairsize {c.size};\n'
+            f' cl_crosshairthickness {c.thickness};\n'
             f' cl_crosshairgap {c.gap};\n'
+            f' cl_crosshair_drawoutline {c.has_outline};\n'
             f' cl_crosshair_outlinethickness {c.outline_thickness};\n'
+            f' cl_crosshaircolor {c.color};\n'
             f' cl_crosshaircolor_r {c.red};\n'
             f' cl_crosshaircolor_g {c.green};\n'
             f' cl_crosshaircolor_b {c.blue};\n'
-            f' cl_crosshairalpha {c.alpha};\n\n'
+            f' cl_crosshairusealpha {c.has_alpha};\n'
+            f' cl_crosshairalpha {c.alpha};\n'
+            f' cl_crosshairdot {c.has_center_dot};\n'
+            f' cl_crosshair_t {c.is_t_style};\n'
+            f' cl_crosshairgap_useweaponvalue {c.use_weapon_gap};\n'
             f' cl_crosshair_dynamic_splitdist {c.split_distance};\n'
             f' cl_fixedcrosshairgap {c.fixed_gap};\n'
-            f' cl_crosshaircolor {c.color};\n'
-            f' cl_crosshair_drawoutline {c.has_outline};\n'
             f' cl_crosshair_dynamic_splitalpha_innermod {c.inner_split_alpha};\n'
             f' cl_crosshair_dynamic_splitalpha_outermod {c.outer_split_alpha};\n'
-            f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio};\n\n'
-            f' cl_crosshairthickness {c.thickness};\n'
-            f' cl_crosshairdot {c.has_center_dot};\n'
-            f' cl_crosshairgap_useweaponvalue {c.use_weapon_gap};\n'
-            f' cl_crosshairusealpha {c.has_alpha};\n'
-            f' cl_crosshair_t {c.is_t_style};\n'
-            f' cl_crosshairstyle {c.style};\n'
-            f' cl_crosshairsize {c.size};\n'
+            f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio};\n'
         )
 
 
