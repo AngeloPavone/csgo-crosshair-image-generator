@@ -3,7 +3,7 @@ import re
 from math import log
 
 
-SHARE_CODE = 'CSGO-Cn37R-YE7vo-pLCAL-aURmZ-z6zkG'
+SHARE_CODE = 'CSGO-DSw85-WryAK-xVom3-VtOS3-RqHCF'
 
 SCALE = 1
 WIDTH = 80
@@ -113,16 +113,51 @@ def create_image() -> None:
     GAP = map_gap_value(c.gap)
     OUTLINE = "BLACK" if c.has_outline else None
 
+
+    def left() -> list:
+        X1 = (WIDTH / 2) - (SIZE + (GAP / 2))
+        Y1 = (HEIGHT / 2) + (THICKNESS / 2)
+        X2 = (WIDTH / 2) - (GAP / 2)
+        Y2 = (HEIGHT / 2) - (THICKNESS / 2)
+        print(f'left: ({X1}, {Y1})x({X2}, {Y2})')
+        return [X1, Y1, X2, Y2]
+
+
+    def top() -> list:
+        X1 = (WIDTH / 2) - (THICKNESS / 2)
+        Y1 = (HEIGHT / 2) - (SIZE + (GAP / 2))
+        X2 = (WIDTH / 2) + (THICKNESS / 2)
+        Y2 = (HEIGHT / 2) - (GAP / 2)
+        print(f'top: ({X1}, {Y1})x({X2}, {Y2})')
+        return [X1, Y1, X2, Y2]
+
+
+    def right() -> list:
+        X1 = (WIDTH / 2) + (GAP / 2)
+        Y1 = (HEIGHT / 2) + (THICKNESS / 2)
+        X2 = (WIDTH / 2) + (SIZE + (GAP / 2))
+        Y2 = (HEIGHT / 2) - (THICKNESS / 2)
+        print(f'right: ({X1}, {Y1})x({X2}, {Y2})')
+        return [X1, Y1, X2, Y2]
+
+
+    def bottom() -> list:
+        X1 = (WIDTH / 2) - (THICKNESS / 2)
+        Y1 = (HEIGHT / 2) + (GAP / 2)
+        X2 = (WIDTH / 2) + (THICKNESS / 2)
+        Y2 = (HEIGHT / 2) + (SIZE + (GAP / 2))
+        print(f'bottom: ({X1}, {Y1})x({X2}, {Y2})')
+        return [X1, Y1, X2, Y2]
+
     # draw the rectangle on the image draw.rectangle(left, top, right, bottom)
     # top
     # draw.rectangle((top_left(THICKNESS, WIDTH), top_top(SIZE, HEIGHT), top_right(THICKNESS, WIDTH), top_bottom(SIZE, HEIGHT)), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
-    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y - GAP) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y - SIZE) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1) if not c.is_t_style else None
-    # right
-    draw.rectangle(((CENTER_X + GAP) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X + SIZE) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
-    # left
-    draw.rectangle(((CENTER_X - SIZE) * SCALE, (CENTER_Y + THICKNESS) * SCALE, (CENTER_X - GAP) * SCALE, (CENTER_Y - THICKNESS) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
-    # bottom
-    draw.rectangle(((CENTER_X - THICKNESS) * SCALE, (CENTER_Y + SIZE) * SCALE, (CENTER_X + THICKNESS) * SCALE, (CENTER_Y + GAP) * SCALE), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=1)
+    draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
+    draw.rectangle((top()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
+    draw.rectangle((right()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
+    draw.rectangle((bottom()), fill=(c.red, c.green, c.blue, c.alpha), outline=OUTLINE, width=0)
+
+
 
 
     img.save('crosshair.png', 'PNG')
