@@ -3,7 +3,7 @@ generates a png image of a given crosshair with a transparent background
  
  crosshair code decoding mostly ported to python from https://gist.github.com/saul/d5b1a0e2284e2bf767793880f03bd729
 
-![image](https://user-images.githubusercontent.com/101136391/224377233-32951c4a-0549-4501-bbfa-8d188e2e059b.png)
+![image](https://user-images.githubusercontent.com/101136391/224383806-3ce475bd-beae-4117-bca7-94eed808a08f.png)
 # Generated From
 
  CODE:  
