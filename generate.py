@@ -115,13 +115,11 @@ def create_image() -> None:
     OUTLINE = 1 if c.has_outline else 0
 
 
-    print(f' COORDINATES:')
     def left() -> list:
         X1 = (WIDTH / 2) - (SIZE + (GAP / 2))
         Y1 = (HEIGHT / 2) + (THICKNESS / 2)
         X2 = (WIDTH / 2) - (GAP / 2)
         Y2 = (HEIGHT / 2) - (THICKNESS / 2)
-        print(f' left: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
@@ -130,7 +128,6 @@ def create_image() -> None:
         Y1 = (HEIGHT / 2) - (SIZE + (GAP / 2))
         X2 = (WIDTH / 2) + (THICKNESS / 2)
         Y2 = (HEIGHT / 2) - (GAP / 2)
-        print(f' top: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
@@ -139,7 +136,6 @@ def create_image() -> None:
         Y1 = (HEIGHT / 2) + (THICKNESS / 2)
         X2 = (WIDTH / 2) + (SIZE + (GAP / 2))
         Y2 = (HEIGHT / 2) - (THICKNESS / 2)
-        print(f' right: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
@@ -148,7 +144,6 @@ def create_image() -> None:
         Y1 = (HEIGHT / 2) + (GAP / 2)
         X2 = (WIDTH / 2) + (THICKNESS / 2)
         Y2 = (HEIGHT / 2) + (SIZE + (GAP / 2))
-        print(f' bottom: ({X1}, {Y1})x({X2}, {Y2})')
         return [X1, Y1, X2, Y2]
 
 
