@@ -6,8 +6,10 @@ generates a png image of a given crosshair with a transparent background
 ![image](https://user-images.githubusercontent.com/101136391/224377233-32951c4a-0549-4501-bbfa-8d188e2e059b.png)
 # Generated From
 
- CODE: CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM
+ CODE: 
+ CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM
 
+ OUTPUT:
  cl_crosshairgap -2.5;  
  cl_crosshair_outlinethickness 0.0;  
  cl_crosshaircolor_r 0;  
@@ -19,8 +21,8 @@ generates a png image of a given crosshair with a transparent background
  cl_fixedcrosshairgap 20.6;  
  cl_crosshaircolor 5;  
  cl_crosshair_drawoutline 0;  
- cl_crosshair_dynamic_splitalpha_innermod 1.0;  
- cl_crosshair_dynamic_splitalpha_outermod 0.5;  
+ cl_crosshair_dynamic_splitalpha_innermod 1.0;   
+ cl_crosshair_dynamic_splitalpha_outermod 0.5;   
 
  cl_crosshair_dynamic_maxdist_splitratio 0.3;  
  cl_crosshairthickness 0.5;  
