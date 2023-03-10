@@ -6,11 +6,10 @@ from math import log
 SHARE_CODE = 'CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM'
 
 SCALE = 1
-GAP_SCALE = 1
 WIDTH = 1920
 HEIGHT = 1080
-CENTER_X = WIDTH // 2
-CENTER_Y = HEIGHT // 2
+CENTER_X = WIDTH / 2
+CENTER_Y = HEIGHT / 2
 
 
 class Crosshair:
@@ -70,6 +69,7 @@ class Crosshair:
 
     def uint8toint8(input: int) -> int:
         return input if input < 128 else input - 256
+
 
     def __init__(self,  bytes=code_to_bytes(SHARE_CODE)) -> None:
         self.gap                =   (Crosshair.uint8toint8(bytes[3]) / 10.0)
@@ -163,7 +163,9 @@ def create_image() -> None:
 
 def print_crosshair() -> None:
     c = Crosshair()
-    print(f'\n CODE: {SHARE_CODE}\n')
+    print(f'\n CODE: \n {SHARE_CODE}\n')
+
+    print(f' OUTPUT: ')
     print(
             f' cl_crosshairgap {c.gap};\n'
             f' cl_crosshair_outlinethickness {c.outline_thickness};\n'
@@ -172,12 +174,12 @@ def print_crosshair() -> None:
             f' cl_crosshaircolor_b {c.blue};\n'
             f' cl_crosshairalpha {c.alpha};\n\n'
             f' cl_crosshair_dynamic_splitdist {c.split_distance};\n'
-            f' cl_fixedcrosshairgap {c.fixed_gap}\n'
+            f' cl_fixedcrosshairgap {c.fixed_gap};\n'
             f' cl_crosshaircolor {c.color};\n'
             f' cl_crosshair_drawoutline {c.has_outline};\n'
             f' cl_crosshair_dynamic_splitalpha_innermod {c.inner_split_alpha};\n'
             f' cl_crosshair_dynamic_splitalpha_outermod {c.outer_split_alpha};\n\n'
-            f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio}\n'
+            f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio};\n'
             f' cl_crosshairthickness {c.thickness};\n'
             f' cl_crosshairdot {c.has_center_dot};\n'
             f' cl_crosshairgap_useweaponvalue {c.use_weapon_gap};\n'
