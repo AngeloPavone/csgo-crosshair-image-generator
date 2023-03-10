@@ -6,7 +6,7 @@ generates a png image of a given crosshair with a transparent background
 ![image](https://user-images.githubusercontent.com/101136391/224377233-32951c4a-0549-4501-bbfa-8d188e2e059b.png)
 # Generated From
 
- CODE: 
+ CODE:  
  CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM
 
  OUTPUT:  
