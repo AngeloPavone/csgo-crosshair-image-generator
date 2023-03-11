@@ -1,3 +1,4 @@
+from os import walk
 from PIL import Image, ImageDraw
 import re
 from math import log
@@ -13,33 +14,33 @@ CENTER_Y = HEIGHT / 2
 
 
 class Crosshair:
-    style               =   None
+    style               =   int
         # style 0 => Default
         # style 1 => Default static
         # style 2 => Classic
         # style 3 => Classic dynamic
         # style 4 => Classic static
-    has_center_dot      =   None
-    size                =   None
-    thickness           =   None
-    gap                 =   None
-    fixed_gap           =   None
-    has_outline         =   None
-    outline_thickness   =   None
-    red                 =   None
-    green               =   None
-    blue                =   None
-    has_alpha           =   None
-    alpha               =   None
-    split_distance      =   None
-    inner_split_alpha   =   None
-    outer_split_alpha   =   None
-    split_size_ratio    =   None
-    is_t_style          =   None
-    use_weapon_gap      =   None
+    has_center_dot      =   bool
+    size                =   float
+    thickness           =   float
+    gap                 =   float
+    fixed_gap           =   int
+    has_outline         =   bool
+    outline_thickness   =   float
+    red                 =   int
+    green               =   int
+    blue                =   int
+    has_alpha           =   bool
+    alpha               =   int
+    split_distance      =   int
+    inner_split_alpha   =   int
+    outer_split_alpha   =   int
+    split_size_ratio    =   int
+    is_t_style          =   bool
+    use_weapon_gap      =   bool
 
 
-    def code_to_bytes(SHARE_CODE: str) -> list:
+    def code_to_bytes(self, SHARE_CODE: str) -> list:
 
         crosshair_code = SHARE_CODE[4:].replace('-','')
 
@@ -67,19 +68,20 @@ class Crosshair:
         return list(reversed(bytes))
 
 
-    def uint8toint8(input: int) -> int:
+    def uint8toint8(self, input: int) -> int:
         return input if input < 128 else input - 256
 
 
-    def __init__(self,  bytes=code_to_bytes(SHARE_CODE)) -> None:
-        self.gap                =   (Crosshair.uint8toint8(bytes[3]) / 10.0)
+    def __init__(self, bytes=None) -> None:
+        bytes = self.code_to_bytes(SHARE_CODE)
+        self.gap                =   (self.uint8toint8(bytes[3]) / 10.0)
         self.outline_thickness  =   (bytes[4] / 2)
         self.red                =   (bytes[5])
         self.green              =   (bytes[6])
         self.blue               =   (bytes[7])
         self.alpha              =   (bytes[8])
         self.split_distance     =   (float(bytes[9]))
-        self.fixed_gap          =   (Crosshair.uint8toint8((bytes[10]) / 10.0))
+        self.fixed_gap          =   (self.uint8toint8((bytes[10]) / 10.0))
         self.color              =   (bytes[11] & 7)
         self.has_outline        =   (1 if (bytes[11] & 8) != 0 else 0)
         self.inner_split_alpha  =   (bytes[11] >> 4) / 10.0
@@ -94,19 +96,23 @@ class Crosshair:
         self.size               =   (bytes[15] / 10.0)
 
 
-def create_image() -> None:
+def create_image() -> object:
     img = Image.new('RGBA', (WIDTH, HEIGHT), (255, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     c = Crosshair()
 
 
     def map_gap_value(x: float) -> float:
-        if x == -5:
-            return 0
         if x > -5:
             return x -(-5)
-        if x < -5:
+        elif x < -5:
             return (x + 5) * -1
+        else:
+            return 0
+
+
+    print(map_gap_value(-6))
+
 
 
     SIZE = (2 * c.size) * SCALE
