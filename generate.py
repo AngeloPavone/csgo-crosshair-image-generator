@@ -4,7 +4,7 @@ import re
 from math import log
 
 
-SHARE_CODE = 'CSGO-hrtNj-vyBzy-UdPis-AJ2Yn-CshrM'
+SHARE_CODE = 'CSGO-Djr5W-Tyu9J-DfDuR-hfZAz-PNAfD'
 
 SCALE = 1
 WIDTH = 200
@@ -115,8 +115,9 @@ def create_image() -> object:
 
 
 
-    SIZE = (2 * c.size) * SCALE
-    THICKNESS = c.thickness * SCALE
+    SIZE = 2 * c.size * SCALE
+    THICKNESS = 2 * c.thickness * SCALE
+    print(c.thickness)
     GAP = 2 * map_gap_value(c.gap) * SCALE
     OUTLINE = 1 if c.has_outline else 0
 
@@ -189,7 +190,7 @@ def print_crosshair() -> None:
             f' cl_crosshair_dynamic_splitalpha_innermod {c.inner_split_alpha};\n'
             f' cl_crosshair_dynamic_splitalpha_outermod {c.outer_split_alpha};\n'
             f' cl_crosshair_dynamic_maxdist_splitratio {c.split_size_ratio};\n'
-        )
+       )
 
 
 
