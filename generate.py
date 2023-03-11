@@ -74,6 +74,7 @@ class Crosshair:
 
     def __init__(self, bytes=None) -> None:
         bytes = self.code_to_bytes(SHARE_CODE)
+        print(bytes)
         self.gap                =   (self.uint8toint8(bytes[3]) / 10.0)
         self.outline_thickness  =   (bytes[4] / 2)
         self.red                =   (bytes[5])
@@ -110,14 +111,8 @@ def create_image() -> object:
         else:
             return 0
 
-
-    print(map_gap_value(-6))
-
-
-
     SIZE = 2 * c.size * SCALE
     THICKNESS = 2 * c.thickness * SCALE
-    print(c.thickness)
     GAP = 2 * map_gap_value(c.gap) * SCALE
     OUTLINE = 1 if c.has_outline else 0
 
