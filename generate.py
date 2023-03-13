@@ -6,11 +6,10 @@ from math import log
 
 SHARE_CODE = 'CSGO-D9YFQ-V9cWf-LecTD-j4PkT-pVnMC'
 
-SCALE = 1.0
-WIDTH = 303
-HEIGHT = 303
-CENTER_X = WIDTH / 2
-CENTER_Y = HEIGHT / 2
+WIDTH = 961
+HEIGHT = 541
+CENTER_X = WIDTH // 2
+CENTER_Y = HEIGHT // 2
 
 
 class Crosshair:
@@ -97,6 +96,7 @@ def create_image() -> object:
 
 
     def map_gap_value(x: float) -> float:
+        print(x)
         if x > -5:
             return x -(-5)
         elif x < -5:
@@ -104,45 +104,53 @@ def create_image() -> object:
         else:
             return 0
 
-    SIZE = 2 * float(c.size) * float(SCALE)
-    THICKNESS = 2 * float(c.thickness) * float(SCALE)
-    GAP = 2 * float(map_gap_value(c.gap)) * float(SCALE)
+    SIZE = 4 * float(c.size)
+    print(SIZE)
+    THICKNESS = 4 * float(c.thickness)
+    print(THICKNESS)
+    GAP = 2 * float(map_gap_value(c.gap))
+    print(GAP)
     OUTLINE = 1 if c.has_outline else 0
 
 
+    print(f'resolution: ({WIDTH}, {HEIGHT})')
     def left() -> tuple:
-        X1 = (WIDTH / 2) - (SIZE + (GAP / 2)) + 1
-        Y1 = (HEIGHT / 2) + (THICKNESS / 2)
-        X2 = (WIDTH / 2) - (GAP / 2) + 1
-        Y2 = (HEIGHT / 2) - (THICKNESS / 2)
+        X1 = CENTER_X - (SIZE + (GAP / 2)) + 1
+        Y1 = CENTER_Y + (THICKNESS / 2)
+        X2 = CENTER_X - (GAP / 2)  + 1
+        Y2 = CENTER_Y - (THICKNESS / 2)
         left = tuple([X1, Y1, X2, Y2])
+        print(f'left: {left}')
         return left
 
 
     def top() -> tuple:
-        X1 = (WIDTH / 2) - (THICKNESS / 2)
-        Y1 = (HEIGHT / 2) - (SIZE + (GAP / 2)) + 1
-        X2 = (WIDTH / 2) + (THICKNESS / 2)
-        Y2 = (HEIGHT / 2) - (GAP / 2) + 1
+        X1 = CENTER_X - (THICKNESS / 2)
+        Y1 = CENTER_Y - (SIZE + (GAP / 2)) + 1
+        X2 = CENTER_X + (THICKNESS / 2)
+        Y2 = CENTER_Y - (GAP / 2) + 1
         top = tuple([X1, Y1, X2, Y2])
+        print(f'top: {top}')
         return top
 
 
     def right() -> tuple:
-        X1 = (WIDTH / 2) + (GAP / 2)
-        Y1 = (HEIGHT / 2) + (THICKNESS / 2)
-        X2 = (WIDTH / 2) + (SIZE + (GAP / 2))
-        Y2 = (HEIGHT / 2) - (THICKNESS / 2)
+        X1 = CENTER_X + (GAP / 2) - 1
+        Y1 = CENTER_Y + (THICKNESS / 2)
+        X2 = CENTER_X + (SIZE + (GAP / 2)) - 1
+        Y2 = CENTER_Y - (THICKNESS / 2)
         right = tuple([X1, Y1, X2, Y2])
+        print(f'right: {right}')
         return right
 
 
     def bottom() -> tuple:
-        X1 = (WIDTH / 2) - (THICKNESS / 2)
-        Y1 = (HEIGHT / 2) + (GAP / 2)
-        X2 = (WIDTH / 2) + (THICKNESS / 2)
-        Y2 = (HEIGHT / 2) + (SIZE + (GAP / 2))
+        X1 = CENTER_X - (THICKNESS / 2)
+        Y1 = CENTER_Y + (GAP / 2) - 1
+        X2 = CENTER_X + (THICKNESS / 2)
+        Y2 = CENTER_Y + (SIZE + (GAP / 2)) - 1
         bottom = tuple([X1, Y1, X2, Y2])
+        print(f'bottom: {bottom}')
         return bottom
 
 
