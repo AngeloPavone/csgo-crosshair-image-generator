@@ -4,41 +4,35 @@ import re
 from math import log
 
 
-SHARE_CODE = 'CSGO-Djr5W-Tyu9J-DfDuR-hfZAz-PNAfD'
+SHARE_CODE = 'CSGO-D9YFQ-V9cWf-LecTD-j4PkT-pVnMC'
 
-SCALE = 1
-WIDTH = 200
-HEIGHT = 200
+SCALE = 1.0
+WIDTH = 303
+HEIGHT = 303
 CENTER_X = WIDTH / 2
 CENTER_Y = HEIGHT / 2
 
 
 class Crosshair:
-    style               =   int
-        # style 0 => Default
-        # style 1 => Default static
-        # style 2 => Classic
-        # style 3 => Classic dynamic
-        # style 4 => Classic static
-    has_center_dot      =   bool
-    size                =   float
-    thickness           =   float
-    gap                 =   float
-    fixed_gap           =   int
-    has_outline         =   bool
-    outline_thickness   =   float
-    red                 =   int
-    green               =   int
-    blue                =   int
-    has_alpha           =   bool
-    alpha               =   int
-    split_distance      =   int
-    inner_split_alpha   =   int
-    outer_split_alpha   =   int
-    split_size_ratio    =   int
-    is_t_style          =   bool
-    use_weapon_gap      =   bool
-
+    style               =  0
+    has_center_dot      =  0
+    size                =  0.0
+    thickness           =  0.0
+    gap                 =  0.0
+    fixed_gap           =  0
+    has_outline         =  0
+    outline_thickness   =  0.0
+    red                 =  0
+    green               =  0
+    blue                =  0
+    has_alpha           =  0
+    alpha               =  0
+    split_distance      =  0
+    inner_split_alpha   =  0
+    outer_split_alpha   =  0
+    split_size_ratio    =  0
+    is_t_style          =  0
+    use_weapon_gap      =  0
 
     def code_to_bytes(self, SHARE_CODE: str) -> list:
 
@@ -64,7 +58,6 @@ class Crosshair:
         if len(bytes) == 18:
             bytes.append(0x00)
 
-        # print(f'\n {bytes}\n')
         return list(reversed(bytes))
 
 
@@ -72,29 +65,29 @@ class Crosshair:
         return input if input < 128 else input - 256
 
 
-    def __init__(self, bytes=None) -> None:
-        bytes = self.code_to_bytes(SHARE_CODE)
-        print(bytes)
-        self.gap                =   (self.uint8toint8(bytes[3]) / 10.0)
-        self.outline_thickness  =   (bytes[4] / 2)
-        self.red                =   (bytes[5])
-        self.green              =   (bytes[6])
-        self.blue               =   (bytes[7])
-        self.alpha              =   (bytes[8])
-        self.split_distance     =   (float(bytes[9]))
-        self.fixed_gap          =   (self.uint8toint8((bytes[10]) / 10.0))
-        self.color              =   (bytes[11] & 7)
-        self.has_outline        =   (1 if (bytes[11] & 8) != 0 else 0)
-        self.inner_split_alpha  =   (bytes[11] >> 4) / 10.0
-        self.outer_split_alpha  =   (bytes[12] & 0xF) / 10.0
-        self.split_size_ratio   =   (bytes[12] >> 4) / 10.0
-        self.thickness          =   (bytes[13] / 10.0)
-        self.has_center_dot     =   (1 if ((bytes[14] >> 4) & 1) != 0 else 0)
-        self.use_weapon_gap     =   (1 if ((bytes[14] >> 4) & 2) != 0 else 0)
-        self.has_alpha          =   (1 if ((bytes[14] >> 4) & 4) != 0 else 0)
-        self.is_t_style         =   (1 if ((bytes[14] >> 4) & 8) != 0 else 0)
-        self.style              =   (bytes[14] & 0xF) >> 1
-        self.size               =   (bytes[15] / 10.0)
+    def __init__(self, raw_bytes=None) -> None:
+        raw_bytes = self.code_to_bytes(SHARE_CODE)
+        print(raw_bytes)
+        self.gap                =   (self.uint8toint8(raw_bytes[3]) / 10.0)
+        self.outline_thickness  =   (raw_bytes[4] / 2)
+        self.red                =   (raw_bytes[5])
+        self.green              =   (raw_bytes[6])
+        self.blue               =   (raw_bytes[7])
+        self.alpha              =   (raw_bytes[8])
+        self.split_distance     =   (float(raw_bytes[9]))
+        self.fixed_gap          =   (self.uint8toint8((raw_bytes[10]) / 10.0))
+        self.color              =   (raw_bytes[11] & 7)
+        self.has_outline        =   (1 if (raw_bytes[11] & 8) != 0 else 0)
+        self.inner_split_alpha  =   (raw_bytes[11] >> 4) / 10.0
+        self.outer_split_alpha  =   (raw_bytes[12] & 0xF) / 10.0
+        self.split_size_ratio   =   (raw_bytes[12] >> 4) / 10.0
+        self.thickness          =   (raw_bytes[13] / 10.0)
+        self.has_center_dot     =   (1 if ((raw_bytes[14] >> 4) & 1) != 0 else 0)
+        self.use_weapon_gap     =   (1 if ((raw_bytes[14] >> 4) & 2) != 0 else 0)
+        self.has_alpha          =   (1 if ((raw_bytes[14] >> 4) & 4) != 0 else 0)
+        self.is_t_style         =   (1 if ((raw_bytes[14] >> 4) & 8) != 0 else 0)
+        self.style              =   (raw_bytes[14] & 0xF) >> 1
+        self.size               =   (raw_bytes[15] / 10.0)
 
 
 def create_image() -> object:
@@ -111,42 +104,46 @@ def create_image() -> object:
         else:
             return 0
 
-    SIZE = 2 * c.size * SCALE
-    THICKNESS = 2 * c.thickness * SCALE
-    GAP = 2 * map_gap_value(c.gap) * SCALE
+    SIZE = 2 * float(c.size) * float(SCALE)
+    THICKNESS = 2 * float(c.thickness) * float(SCALE)
+    GAP = 2 * float(map_gap_value(c.gap)) * float(SCALE)
     OUTLINE = 1 if c.has_outline else 0
 
 
-    def left() -> list:
-        X1 = (WIDTH / 2) - (SIZE + (GAP / 2))
+    def left() -> tuple:
+        X1 = (WIDTH / 2) - (SIZE + (GAP / 2)) + 1
         Y1 = (HEIGHT / 2) + (THICKNESS / 2)
-        X2 = (WIDTH / 2) - (GAP / 2)
+        X2 = (WIDTH / 2) - (GAP / 2) + 1
         Y2 = (HEIGHT / 2) - (THICKNESS / 2)
-        return [X1, Y1, X2, Y2]
+        left = tuple([X1, Y1, X2, Y2])
+        return left
 
 
-    def top() -> list:
+    def top() -> tuple:
         X1 = (WIDTH / 2) - (THICKNESS / 2)
-        Y1 = (HEIGHT / 2) - (SIZE + (GAP / 2))
+        Y1 = (HEIGHT / 2) - (SIZE + (GAP / 2)) + 1
         X2 = (WIDTH / 2) + (THICKNESS / 2)
-        Y2 = (HEIGHT / 2) - (GAP / 2)
-        return [X1, Y1, X2, Y2]
+        Y2 = (HEIGHT / 2) - (GAP / 2) + 1
+        top = tuple([X1, Y1, X2, Y2])
+        return top
 
 
-    def right() -> list:
+    def right() -> tuple:
         X1 = (WIDTH / 2) + (GAP / 2)
         Y1 = (HEIGHT / 2) + (THICKNESS / 2)
         X2 = (WIDTH / 2) + (SIZE + (GAP / 2))
         Y2 = (HEIGHT / 2) - (THICKNESS / 2)
-        return [X1, Y1, X2, Y2]
+        right = tuple([X1, Y1, X2, Y2])
+        return right
 
 
-    def bottom() -> list:
+    def bottom() -> tuple:
         X1 = (WIDTH / 2) - (THICKNESS / 2)
         Y1 = (HEIGHT / 2) + (GAP / 2)
         X2 = (WIDTH / 2) + (THICKNESS / 2)
         Y2 = (HEIGHT / 2) + (SIZE + (GAP / 2))
-        return [X1, Y1, X2, Y2]
+        bottom = tuple([X1, Y1, X2, Y2])
+        return bottom
 
 
     draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
