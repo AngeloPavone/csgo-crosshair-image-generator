@@ -4,7 +4,7 @@ import re
 from math import log
 
 
-SHARE_CODE = 'CSGO-D9YFQ-V9cWf-LecTD-j4PkT-pVnMC'
+SHARE_CODE = 'CSGO-rUuMj-MY8W3-85qXc-xVDi5-L9ksF'
 
 WIDTH = 961
 HEIGHT = 541
@@ -96,7 +96,6 @@ def create_image() -> object:
 
 
     def map_gap_value(x: float) -> float:
-        print(x)
         if x > -5:
             return x -(-5)
         elif x < -5:
@@ -105,14 +104,13 @@ def create_image() -> object:
             return 0
 
     SIZE = 4 * float(c.size)
-    print(SIZE)
-    THICKNESS = 4 * float(c.thickness)
-    print(THICKNESS)
+    THICKNESS = 4 * float(c.thickness) if c.thickness else 1
     GAP = 2 * float(map_gap_value(c.gap))
-    print(GAP)
     OUTLINE = 1 if c.has_outline else 0
 
 
+    # TODO: fix weird alignment issue https://media.discordapp.net/attachments/764719568467001347/1084907647972683806/image.png
+    # https://media.discordapp.net/attachments/764719568467001347/1084907920266899598/image.png
     print(f'resolution: ({WIDTH}, {HEIGHT})')
     def left() -> tuple:
         X1 = CENTER_X - (SIZE + (GAP / 2)) + 1
@@ -153,7 +151,7 @@ def create_image() -> object:
         print(f'bottom: {bottom}')
         return bottom
 
-
+    # TODO: make default color values work so if its cl_crosshaircolor 4 it will be cyan
     draw.rectangle((left()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
     draw.rectangle((top()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
     draw.rectangle((right()), fill=(c.red, c.green, c.blue, c.alpha), outline="black", width=OUTLINE)
